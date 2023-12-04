@@ -1,6 +1,6 @@
 import sys
 import re
-
+from typing import Pattern
 
 DIGIT_MAP = {
     "one": 1,
@@ -14,15 +14,15 @@ DIGIT_MAP = {
     "nine": 9,
 }
 
-REGEX = re.compile(rf"(?=({'|'.join(DIGIT_MAP.keys())}|\d))")
-
 
 def string_to_num(s: str) -> int:
     return DIGIT_MAP[s] if s in DIGIT_MAP else int(s)
 
 
-def get_number(s: str) -> int:
-    matches = REGEX.findall(s)
+def get_number(
+    s: str, pat: Pattern[str] = re.compile(rf"(?=({'|'.join(DIGIT_MAP.keys())}|\d))")
+) -> int:
+    matches = pat.findall(s)
     return 10 * string_to_num(matches[0]) + string_to_num(matches[-1])
 
 
