@@ -1,5 +1,5 @@
-import sys
 import re
+import sys
 from typing import Pattern
 
 DIGIT_MAP = {
@@ -27,7 +27,4 @@ def get_number(
 
 
 with open(sys.argv[1]) as f:
-    document = [line.strip() for line in f]
-
-
-print(sum(get_number(line) for line in document))
+    print(sum(get_number(line.strip()) for line in f))
