@@ -23,10 +23,7 @@ def string_to_num(s: str) -> int:
 
 def get_number(s: str) -> int:
     matches = REGEX.findall(s)
-    first = string_to_num(matches[0])
-    second = string_to_num(matches[-1])
-    print(f"{s=}, {first=}, {second=}")
-    return 10 * first + second
+    return 10 * string_to_num(matches[0]) + string_to_num(matches[-1])
 
 
 with open(sys.argv[1]) as f:
