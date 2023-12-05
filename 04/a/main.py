@@ -19,9 +19,7 @@ class Card:
 
 
 def get_points(num: int) -> int:
-    if num < 2:
-        return num
-    return 2 ** (num - 1)
+    return num if num < 2 else 2 ** (num - 1)
 
 
 def get_my_numbers(s: str, pat: Pattern[str] = re.compile(r"(\d+)")) -> list[str]:
