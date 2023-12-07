@@ -20,7 +20,7 @@ def string_to_num(s: str) -> int:
 
 
 def get_number(
-    s: str, pat: Pattern[str] = re.compile(rf"(?=({'|'.join(DIGIT_MAP.keys())}|\d))")
+    s: str, pat: Pattern[str] = re.compile(rf"(?=({'|'.join(DIGIT_MAP)}|\d))")
 ) -> int:
     matches = pat.findall(s)
     return 10 * string_to_num(matches[0]) + string_to_num(matches[-1])
