@@ -9,12 +9,8 @@
 // TODO: fewer casts
 
 unsigned long get_num_from_line(const std::string& s) {
-  std::regex r{"[0-9]+"};
-  std::stringstream ss;
-  for (std::sregex_iterator it{std::sregex_iterator(std::cbegin(s), std::cend(s), r)}; it != std::sregex_iterator(); ++it) {
-    ss << it->str();
-  }
-  return std::stoul(ss.str());
+  std::regex r{R"(\D)"};
+  return std::stoul(std::regex_replace(s, r, ""));
 }
 
 template <typename T>
