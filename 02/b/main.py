@@ -37,11 +37,7 @@ power_sum = 0
 with open(sys.argv[1]) as f:
     for line in f:
         draws = [Draw.from_str(s) for s in line.split(";")]
-        mins = {c: 0 for c in Color}
-        for d in draws:
-            for k, v in mins.items():
-                if d.draws[k] > v:
-                    mins[k] = d.draws[k]
+        mins = {c: max(d.draws[c] for d in draws) for c in Color}
         power_sum += functools.reduce(operator.mul, mins.values())
 
 print(power_sum)
