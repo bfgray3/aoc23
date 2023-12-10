@@ -2,6 +2,7 @@ import dataclasses
 import re
 import sys
 from collections.abc import Iterable
+from typing import Pattern
 
 
 @dataclasses.dataclass(frozen=True, slots=True)
@@ -11,7 +12,7 @@ class Number:
     start: int
     end: int
 
-    def is_adjacent_to_symbol(self, symbol_dict: dict[int, list[int]]) -> bool:
+    def is_adjacent_to_symbol(self, symbol_dict: dict[int, Iterable[int]]) -> bool:
         for x in (self.start - 1, self.end):
             if self.row in symbol_dict and x in symbol_dict[self.row]:
                 return True
@@ -22,11 +23,13 @@ class Number:
         return False
 
 
-def find_numbers(x: Iterable[str]) -> list[Number]:
+def find_numbers(
+    x: Iterable[str], pat: Pattern[str] = re.compile(r"(\d+)")
+) -> list[Number]:
     return [
         Number(i, int(m.group(1)), *m.span())
         for i, r in enumerate(x)
-        for m in re.finditer(r"(\d+)", r)
+        for m in pat.finditer(r)
     ]
 
 

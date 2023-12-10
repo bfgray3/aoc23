@@ -19,8 +19,9 @@ std::vector<unsigned long> get_nums_from_line(const std::string& s) {
 
 template <typename T>
 std::pair<double, double> get_intercepts(T time, T record) {
-  auto discriminant{std::sqrt(std::pow(static_cast<double>(time), 2) - 4 * static_cast<double>(record))};
-  return {std::ceil((static_cast<double>(time) - discriminant) / 2), std::floor((static_cast<double>(time) + discriminant) / 2)};
+  auto time_d{static_cast<double>(time)}, record_d{static_cast<double>(record)};
+  auto discriminant{std::sqrt(std::pow(time_d, 2) - 4 * record_d)};
+  return {std::ceil((time_d - discriminant) / 2), std::floor((time_d + discriminant) / 2)};
 }
 
 int main(const int, const char** argv) {
