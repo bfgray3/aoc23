@@ -26,10 +26,9 @@ class Draw:
 
     @staticmethod
     def _count_color(s: str, c: Color) -> int:
-        try:
-            return int(COUNT_REGEXPS[c].search(s).group(1))
-        except AttributeError:
-            return 0
+        if m := COUNT_REGEXPS[c].search(s):
+            return int(m.group(1))
+        return 0
 
 
 power_sum = 0
