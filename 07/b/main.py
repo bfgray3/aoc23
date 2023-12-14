@@ -47,12 +47,15 @@ class Hand:
         if len(counts) == 1:
             (card,) = counter
             return card * 5
-        elif len(set(counts)) == 1:
+
+        num_unique_non_jokers = len(set(counts))
+
+        if num_unique_non_jokers == 1:
             card = max(counter, key=cls.CARD_DICT.get)
             return s.replace("J", card)
-        elif len(set(counts)) > 1:
-            (card,) = counter.most_common(1)
-            return s.replace("J", card[0])
+        elif num_unique_non_jokers > 1:
+            (card_and_count,) = counter.most_common(1)
+            return s.replace("J", card_and_count[0])
         raise ValueError
 
     @functools.cached_property
