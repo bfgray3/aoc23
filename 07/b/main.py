@@ -15,7 +15,7 @@ class HandType(enum.Enum):
 
 
 class Hand:
-    CARD_DICT = dict(zip("AKQJT98765432", range(13)))
+    CARD_DICT = dict(zip("AKQT98765432J", range(13)))
 
     def __init__(self, s: str, bid: str) -> None:
         self._cards = s
@@ -34,9 +34,31 @@ class Hand:
     def get_winnings(self, rank: int) -> int:
         return rank * self._bid
 
+    @classmethod
+    def _process_jokers(cls, s: str) -> str:
+        if "J" not in s:
+            return s
+        elif s == "J" * 5:
+            return "A" * 5
+
+        counter = collections.Counter(s.replace("J", ""))
+        counts = sorted(counter.values())
+
+        if len(counts) == 1:
+            (card,) = counter
+            return card * 5
+        elif len(set(counts)) == 1:
+            card = max(counter, key=cls.CARD_DICT.get)
+            return s.replace("J", card)
+        elif len(set(counts)) > 1:
+            (card,) = counter.most_common(1)
+            return s.replace("J", card[0])
+        raise ValueError
+
     @functools.cached_property
     def hand_type(self) -> HandType:
-        counts = sorted(collections.Counter(self._cards).values())
+        cards = self._process_jokers(self._cards)
+        counts = sorted(collections.Counter(cards).values())
         if counts == [5]:
             return HandType.FIVE_OF_A_KIND
         elif counts == [1, 4]:
