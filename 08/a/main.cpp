@@ -10,9 +10,8 @@ using LeftRight = std::pair<std::string, std::string>;
 int main(const int, const char** argv) {
   std::unordered_map<std::string, LeftRight> nodes;
   std::ifstream input_file_stream{argv[1]};
-  std::string line, instructions;
-  std::regex r{R"(([0-9A-Z]+) = \(([0-9A-Z]+), ([0-9A-Z]+)\))"};
-  std::string current{"AAA"};
+  std::string line, instructions, current{"AAA"};
+  std::regex r{R"(([A-Z]+) = \(([A-Z]+), ([A-Z]+)\))"};
   std::smatch match;
 
   while (std::getline(input_file_stream, line)) {
