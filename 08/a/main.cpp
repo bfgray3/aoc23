@@ -1,18 +1,16 @@
-#include <algorithm>
 #include <fstream>
 #include <iostream>
 #include <regex>
 #include <string>
 #include <unordered_map>
 
-using LeftRight = std::pair<std::string, std::string>;
-
 int main(const int, const char** argv) {
-  std::unordered_map<std::string, LeftRight> nodes;
+  std::unordered_map<std::string, std::pair<std::string, std::string>> nodes;
   std::ifstream input_file_stream{argv[1]};
   std::string line, instructions, current{"AAA"};
   std::regex r{R"(([A-Z]+) = \(([A-Z]+), ([A-Z]+)\))"};
   std::smatch match;
+  unsigned long long i{};
 
   while (std::getline(input_file_stream, line)) {
     if (line.empty()) {
@@ -24,7 +22,6 @@ int main(const int, const char** argv) {
       instructions = line;
     }
   }
-  unsigned long long i{};
   for (; ; ++i) {
     if (current == "ZZZ") {
       break;
