@@ -11,7 +11,7 @@ with open(sys.argv[1]) as f:
     for line in f:
         if line == "\n":
             continue
-        if "=" in line:
+        elif "=" in line:
             (info,) = LINE_REGEX.findall(line)
             nodes[info[0]] = (info[1], info[2])
         else:
