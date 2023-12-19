@@ -4,7 +4,7 @@ import operator
 import re
 import sys
 from collections.abc import Iterable
-from typing import Mapping
+from collections.abc import Mapping
 from typing import Pattern
 
 
