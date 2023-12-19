@@ -8,10 +8,6 @@ from typing import Mapping
 from typing import Pattern
 
 
-GEAR_SYMBOL = "*"
-GEAR_ADJACENCY_COUNT = 2
-
-
 @dataclasses.dataclass(frozen=True, slots=True)
 class Number:
     row: int
@@ -34,7 +30,7 @@ class Star:
     row: int
     column: int
 
-    def _adjacent_numbers(self, numbers: Mapping[int, list[Number]]) -> list[int]:
+    def _adjacent_numbers(self, numbers: Mapping[int, Iterable[Number]]) -> list[int]:
         adjacent_numbers = []
         for num in numbers[self.row]:
             if num.start == self.column + 1 or num.end == self.column:
@@ -48,9 +44,9 @@ class Star:
                 pass
         return [n.num for n in adjacent_numbers]
 
-    def gear_ratio(self, numbers: Mapping[int, list[Number]]) -> int:
+    def gear_ratio(self, numbers: Mapping[int, Iterable[Number]]) -> int:
         adjacent_nums = self._adjacent_numbers(numbers)
-        if len(adjacent_nums) != GEAR_ADJACENCY_COUNT:
+        if len(adjacent_nums) != 2:
             return 0  # 0 here means it's not a gear
         return functools.reduce(operator.mul, adjacent_nums)
 
