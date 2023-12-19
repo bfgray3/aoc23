@@ -34,9 +34,6 @@ class Star:
     row: int
     column: int
 
-    def is_gear(self, numbers: Mapping[int, list[Number]]) -> bool:
-        return len(self._adjacent_numbers(numbers)) == GEAR_ADJACENCY_COUNT
-
     def _adjacent_numbers(self, numbers: Mapping[int, list[Number]]) -> list[int]:
         adjacent_numbers = []
         for num in numbers[self.row]:
@@ -52,7 +49,10 @@ class Star:
         return [n.num for n in adjacent_numbers]
 
     def gear_ratio(self, numbers: Mapping[int, list[Number]]) -> int:
-        return functools.reduce(operator.mul, self._adjacent_numbers(numbers))
+        adjacent_nums = self._adjacent_numbers(numbers)
+        if len(adjacent_nums) != GEAR_ADJACENCY_COUNT:
+            return 0  # 0 here means it's not a gear
+        return functools.reduce(operator.mul, adjacent_nums)
 
 
 with open(sys.argv[1]) as f:
@@ -60,11 +60,11 @@ with open(sys.argv[1]) as f:
 
 numbers = find_numbers(schematic)
 
-stars = [  # i is row, j is column
+stars = [
     Star(row=i, column=j)
     for i, row in enumerate(schematic)
     for j, x in enumerate(row)
     if x == "*"
 ]
 
-print(sum(s.gear_ratio(numbers) for s in stars if s.is_gear(numbers)))
+print(sum(s.gear_ratio(numbers) for s in stars))
