@@ -7,18 +7,19 @@
 
 //template <typename T>
 int get_prediction(const std::vector<int>& v) { // TODO: generalize type
-  auto num_diffs{v.size() - 1};
   std::vector<int> diffs(v.size());
   auto last_elts{v.back()};
 
   std::adjacent_difference(std::begin(v), std::end(v), std::begin(diffs));
 
-  while (
+  for (
+    auto num_diffs{v.size() - 1};
     !std::all_of(
       std::next(std::cbegin(diffs)),
       std::next(std::cbegin(diffs), num_diffs + 1),
       [](const auto x) { return x == 0; }
-    )
+    );
+    --num_diffs
   ) {
     last_elts += *std::next(std::cbegin(diffs), num_diffs);
     std::adjacent_difference(
@@ -26,7 +27,6 @@ int get_prediction(const std::vector<int>& v) { // TODO: generalize type
       std::next(std::begin(diffs), num_diffs + 1),
       std::begin(diffs)
     );
-    --num_diffs;
   }
   return last_elts;
 
