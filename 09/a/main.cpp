@@ -8,7 +8,7 @@
 
 int get_prediction(const std::ranges::forward_range auto& v) {
   std::vector<std::ranges::range_value_t<decltype(v)>> diffs(v.size());
-  auto last_elts{v.back()};
+  auto last_elts_sum{v.back()};
 
   std::adjacent_difference(std::begin(v), std::end(v), std::begin(diffs));
 
@@ -21,14 +21,14 @@ int get_prediction(const std::ranges::forward_range auto& v) {
     );
     --num_diffs
   ) {
-    last_elts += *std::next(std::cbegin(diffs), num_diffs - 1);
+    last_elts_sum += *std::next(std::cbegin(diffs), num_diffs - 1);
     std::adjacent_difference(
       std::next(std::begin(diffs)),
       std::next(std::begin(diffs), num_diffs),
       std::begin(diffs)
     );
   }
-  return last_elts;
+  return last_elts_sum;
 }
 
 int main(const int, const char** argv) {
